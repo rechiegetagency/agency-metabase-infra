@@ -1,0 +1,28 @@
+# Copy to terraform.tfvars and fill in your values.
+# terraform.tfvars is gitignored so your real values never get committed.
+
+aws_region  = "us-east-1"
+environment = "prod"
+
+# Existing network the database lives in.
+vpc_id     = "vpc-xxxxxxxx"
+subnet_ids = ["subnet-aaaaaaaa", "subnet-bbbbbbbb"] # >= 2 AZs, private subnets
+
+# Who can reach the DB. Prefer security-group references over CIDRs.
+allowed_security_group_ids = ["sg-metabaseapp"] # e.g. the Metabase app/ECS/EC2 SG
+allowed_cidr_blocks        = []                 # e.g. ["10.0.0.0/16"]
+
+# Sizing (defaults are cost-conscious; bump for production load).
+instance_class    = "db.t4g.micro"
+allocated_storage = 20
+engine_version    = "16"
+
+# Lifecycle
+multi_az                = false
+deletion_protection     = true
+skip_final_snapshot     = false
+backup_retention_period = 7
+
+tags = {
+  Team = "data"
+}
