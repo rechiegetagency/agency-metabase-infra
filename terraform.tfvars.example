@@ -5,17 +5,29 @@ aws_region  = "us-east-1"
 environment = "prod"
 
 # Existing network the database lives in.
-vpc_id     = "vpc-xxxxxxxx"
-subnet_ids = ["subnet-aaaaaaaa", "subnet-bbbbbbbb"] # >= 2 AZs, private subnets
+vpc_id = "vpc-xxxxxxxx"
+# For Metabase Cloud over IP whitelisting these must be PUBLIC subnets
+# (route to an internet gateway), in >= 2 AZs.
+subnet_ids = ["subnet-aaaaaaaa", "subnet-bbbbbbbb"]
 
-# Who can reach the DB. Prefer security-group references over CIDRs.
-allowed_security_group_ids = ["sg-metabaseapp"] # e.g. the Metabase app/ECS/EC2 SG
-allowed_cidr_blocks        = []                 # e.g. ["10.0.0.0/16"]
+# Metabase Cloud (outside the VPC) connects over the internet, restricted to
+# its static IPs. Defaults to the US (us-east-1) IPs, so you can leave this out.
+# metabase_cloud_cidrs = ["18.207.81.126/32", "3.211.20.157/32", "50.17.234.169/32"]
+publicly_accessible = true
+
+# Optional extra access (e.g. your office/VPN for admin, or an internal app SG).
+# Leave empty if only Metabase Cloud needs to connect.
+allowed_cidr_blocks        = [] # e.g. ["203.0.113.10/32"] for your admin IP
+allowed_security_group_ids = [] # e.g. ["sg-xxxxxxxx"] for an in-VPC client
 
 # Sizing (defaults are cost-conscious; bump for production load).
-instance_class    = "db.t4g.micro"
+instance_class    = "db.t4g.small"
 allocated_storage = 20
 engine_version    = "16"
+
+# Credentials: true = RDS generates the master password and stores it in
+# Secrets Manager (recommended, nothing sensitive in Terraform state).
+manage_master_user_password = true
 
 # Lifecycle
 multi_az                = false

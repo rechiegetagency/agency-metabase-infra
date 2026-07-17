@@ -1,0 +1,27 @@
+# Local .terraform directories (provider binaries, modules)
+.terraform/
+
+# Terraform state — may contain secrets; use a remote backend to share
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Variable files with real values / secrets (keep *.example tracked)
+terraform.tfvars
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Terraform override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI config
+.terraformrc
+terraform.rc
+
+# NOTE: .terraform.lock.hcl is intentionally NOT ignored — commit it.
