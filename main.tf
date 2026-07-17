@@ -76,8 +76,9 @@ resource "aws_db_parameter_group" "this" {
   description = "Parameters for ${local.name_prefix} (forces SSL)"
 
   parameter {
-    name  = "rds.force_ssl"
-    value = "1"
+    name         = "rds.force_ssl"
+    value        = "1"
+    apply_method = "immediate" # dynamic parameter; avoids a perpetual plan diff
   }
 
   lifecycle {

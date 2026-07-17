@@ -38,3 +38,17 @@ output "db_security_group_id" {
   description = "ID of the security group attached to the database."
   value       = aws_security_group.db.id
 }
+
+output "cloudwatch_alarm_names" {
+  description = "Names of the CloudWatch alarms monitoring the database."
+  value = [
+    aws_cloudwatch_metric_alarm.cpu_high.alarm_name,
+    aws_cloudwatch_metric_alarm.free_storage_low.alarm_name,
+    aws_cloudwatch_metric_alarm.freeable_memory_low.alarm_name,
+  ]
+}
+
+output "alarm_sns_topic_arn" {
+  description = "SNS topic that alarm notifications are published to."
+  value       = data.aws_sns_topic.alarms.arn
+}

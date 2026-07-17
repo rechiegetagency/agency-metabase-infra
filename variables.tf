@@ -136,3 +136,29 @@ variable "skip_final_snapshot" {
   type        = bool
   default     = false
 }
+
+# --- Monitoring (CloudWatch alarms) ---
+
+variable "alarm_sns_topic_name" {
+  description = "Name of an existing SNS topic to publish CloudWatch alarm notifications (and OK notifications) to."
+  type        = string
+  default     = "Email_Devs"
+}
+
+variable "cpu_utilization_threshold" {
+  description = "Alarm when average CPUUtilization (percent) is at or above this value."
+  type        = number
+  default     = 80
+}
+
+variable "free_storage_space_threshold_bytes" {
+  description = "Alarm when FreeStorageSpace (bytes) falls below this value. Default ~2 GiB (10% of the 20 GiB default allocation)."
+  type        = number
+  default     = 2147483648
+}
+
+variable "freeable_memory_threshold_bytes" {
+  description = "Alarm when FreeableMemory (bytes) falls below this value. Default ~256 MiB."
+  type        = number
+  default     = 268435456
+}

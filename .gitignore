@@ -9,6 +9,10 @@
 crash.log
 crash.*.log
 
+# Saved plan files
+tfplan
+*.tfplan
+
 # Variable files with real values / secrets (keep *.example tracked)
 terraform.tfvars
 *.auto.tfvars
