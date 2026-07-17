@@ -24,9 +24,14 @@ output "db_username" {
 }
 
 output "db_password" {
-  description = "Master password (generated). Sensitive; retrieve with `terraform output -raw db_password`."
-  value       = random_password.db.result
+  description = "Master password. Only set when manage_master_user_password = false; otherwise null (fetch it from Secrets Manager instead — see db_master_user_secret_arn)."
+  value       = var.manage_master_user_password ? null : random_password.db[0].result
   sensitive   = true
+}
+
+output "db_master_user_secret_arn" {
+  description = "ARN of the Secrets Manager secret holding the RDS-managed master credentials. Null when manage_master_user_password = false."
+  value       = var.manage_master_user_password ? aws_db_instance.metabase.master_user_secret[0].secret_arn : null
 }
 
 output "db_security_group_id" {
