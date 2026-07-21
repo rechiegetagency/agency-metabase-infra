@@ -6,7 +6,7 @@ data "aws_sns_topic" "alarms" {
 }
 
 locals {
-  # Send both ALARM and OK transitions to the same topic.
+  # Notify on ALARM transitions only (no OK notifications, to reduce noise).
   alarm_actions = [data.aws_sns_topic.alarms.arn]
 }
 
@@ -28,7 +28,6 @@ resource "aws_cloudwatch_metric_alarm" "cpu_high" {
   }
 
   alarm_actions = local.alarm_actions
-  ok_actions    = local.alarm_actions
 
   tags = {
     Name = "${local.name_prefix}-cpu-high"
@@ -53,7 +52,6 @@ resource "aws_cloudwatch_metric_alarm" "free_storage_low" {
   }
 
   alarm_actions = local.alarm_actions
-  ok_actions    = local.alarm_actions
 
   tags = {
     Name = "${local.name_prefix}-free-storage-low"
@@ -78,7 +76,6 @@ resource "aws_cloudwatch_metric_alarm" "freeable_memory_low" {
   }
 
   alarm_actions = local.alarm_actions
-  ok_actions    = local.alarm_actions
 
   tags = {
     Name = "${local.name_prefix}-freeable-memory-low"
