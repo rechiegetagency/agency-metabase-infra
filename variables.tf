@@ -137,6 +137,12 @@ variable "skip_final_snapshot" {
   default     = false
 }
 
+variable "apply_immediately" {
+  description = "Apply instance modifications immediately instead of waiting for the next maintenance window. Storage increases are online (no downtime); some other changes (e.g. instance class) can cause a brief outage, so leave false unless you want changes to take effect now."
+  type        = bool
+  default     = false
+}
+
 # --- Monitoring (CloudWatch alarms) ---
 
 variable "alarm_sns_topic_name" {

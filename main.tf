@@ -119,6 +119,7 @@ resource "aws_db_instance" "metabase" {
   multi_az                   = var.multi_az
   backup_retention_period    = var.backup_retention_period
   auto_minor_version_upgrade = true
+  apply_immediately          = var.apply_immediately
 
   deletion_protection       = var.deletion_protection
   skip_final_snapshot       = var.skip_final_snapshot
